@@ -1,0 +1,67 @@
+;; Disable the menu bar, toolbar, and scrollbar, because I use none of them.
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+
+;; Open .h files in c++ mode (from stackoverflow)
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+;; Save emacs sessions automatically 
+(desktop-save-mode 1)
+
+;; Enable Julia mode
+(add-to-list 'load-path "/home/jogama/.emacs.d/elisp")
+(require 'julia-mode)
+
+;; Haskell things. Had to choose between the three indentation options;;  I chose the simplest one.
+(load "/usr/share/emacs/site-lisp/haskell-mode/haskell-mode.el")
+   ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+   ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+   (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+
+;; Disable the splash screen. This is mainly for when I use emacs in terminal (I use desktop ottherwise)
+(setq inhibit-splash-screen t) ;; to enable aga
+
+;; All my own keybindings are here
+(load-file "~/.emacs.d/elisp/keybindings.el")
+
+;; Visual line mode is pretty
+(global-visual-line-mode 1)
+
+;; I always use *scratch* for human text
+(setq initial-major-mode 'text-mode)
+
+
+;; LaTeX things. (I'm using the gnu auctex package) Retrieved mostly from here: http://piotrkazmierczak.com/2010/05/13/emacs-as-the-ultimate-latex-editor/
+(setq TeX-auto-save t)
+(setq Tex-parse-self t)
+(setq Tex-save-query nil)
+(setq Tex-PDF-mode t)
+(load "preview-latex.el" nil t t) ;; so that I may preview my latex docs.
+(require 'flymake) ;; flymake hasn't been working.
+
+;; (defun flymake-get-tex-args (file-name)
+;; (list "pdflatex"
+;; (list "-file-line-error" "-draftmode" "-interaction=nonstopmode" file-name)))
+
+(add-hook 'LaTeX-mode-hook 'flymake-mode)
+
+(setq ispell-program-name "aspell") ;;  could be ispell as well, depending on your preferences
+(setq ispell-dictionary "english") ;;  this can obviously be set to any language your spell-checking program supports
+
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
+
+;; Enable installation of packages from MELPA
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+
+;; For the Emacs Code Browser (ECB) to work
+(add-to-list 'load-path "/home/jogama/.emacs.d/elisp/ecb-alexott/")
+;; (require 'ecb)
+(require 'ecb-autoloads) ; This would allow for a faster startup, but might not work.
