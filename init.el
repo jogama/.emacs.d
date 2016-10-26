@@ -101,3 +101,8 @@
 ;; ;  (setq c-default-style "stroustrup" c-basic-offset 2)
 ;;   (c-set-offset 'access-label -1))
 ;; (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;; for git from
+;; http://git.kernel.org/cgit/git/git.git/tree/contrib/emacs/git.el?id=HEAD
+;; (require 'git)
+;; (require 'git-blame)
